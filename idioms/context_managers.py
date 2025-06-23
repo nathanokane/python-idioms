@@ -3,6 +3,12 @@ from time import perf_counter
 import os
 
 
+#Basic context manager, which does the same job as the with function for opening files
+#Returns a file object and allows you to use any file functions that you would use normally
+
+#
+
+
 class ContextManager:
     def __init__(self, name):
         self.fileName = name
@@ -20,6 +26,8 @@ class ContextManager:
         self.fp.close()
         self.end_time = perf_counter()
         self.calc_time()
+        #Could be modified to handle exceptions, via checking the value of exc_type, which stores exception type
+        #like so 'if exc_type is ZeroDivisionError return true' for example, this will skip the error
 
     def calc_time(self):
         total = self.end_time - self.start_time
@@ -28,7 +36,6 @@ class ContextManager:
 
 
 with ContextManager("../read-files/words.txt") as myfile:
-    for line in myfile:
-        print(line)
+    lines=myfile.read()
 
     
