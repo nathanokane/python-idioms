@@ -52,18 +52,60 @@ with ContextManager("../read-files/words.txt") as myfile:
 def change_dir(target_path):
     changed_dir = False
     original_path = os.getcwd()
-    os.chdir(target_path)
+    
+    try:
+        os.chdir(target_path)
+        changed_dir = True
+    except FileNotFoundError:
+        print(f"[WARNING] File not found: '{target_path}' — staying in {original_path}")        
+        pass
+
     try:
         yield
+    except Exception as e:
+            print(f"[WARNING] Error when yielding of type {e}")
+            raise
     finally:
         if changed_dir:
             os.chdir(original_path)
 
+#Example usage to create a file in the read files directory, where test data is stored for this project
+
+
 print("Directory before: ", os.getcwd())
 with change_dir("../read-files/"):
-    with open("text-from-context-manager.txt", "w") as f:
-        f.write("Hello, this was created from the context manager")
+    try:
+        with open("text-from-context-manager.txt", "w") as f:
+            f.write("Hello, this was created from the context manager")
+    except Exception as e:
+        print(f"Error with message:  [{e}] when attempting to open file")
+
     print("In with block it is: ", os.getcwd())
 
 print("And after it is: ", os.getcwd())
+
+#Another example usage that could be used to scan log files perhaps
+
+def scan_log(filename, filepath):
+
+    count_lines = 0
+    count_words = 0
+    errors = 0
+
+    with change_dir(filepath):
+        try:
+            with open(filename) as f:
+                for lines in f:
+                    count_lines += 1
+                    words = lines.split(" ")
+                    words_standard = [word.lower() for word in words]
+                    if "error" in words_standard:
+                        errors += 1
+                    count_words += len(words)
+        except Exception as e:
+            print(f"Error of with message {e} when reading file")
+
+    print(f"There were {count_lines} lines and {count_words} words in the log file, with {errors} errors")
+
+scan_log("example-log.txt", "../read-files/")
     
