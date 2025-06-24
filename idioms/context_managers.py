@@ -54,7 +54,6 @@ def change_dir(target_path):
     original_path = os.getcwd()
     os.chdir(target_path)
     try:
-        
         yield
     finally:
         if changed_dir:
