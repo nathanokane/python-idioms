@@ -20,4 +20,5 @@ newLog.level = "INFO"
 newLog.message = "Here is a log message"
 
 print(newLog.timestamp)
+#This below line will error as the LogEntry class doesn't have a commit message attribute
 #newLog.commitMessage = "commit message"
