@@ -1,0 +1,25 @@
+{
+    "transaction_list": [
+        {
+            "amount": 100,
+            "category": "deposit",
+            "description": "initial deposit",
+            "timestamp": "2025-07-09 20:28:30.373832",
+            "id": 0
+        },
+        {
+            "amount": 400,
+            "category": "deposit",
+            "description": "second deposit",
+            "timestamp": "2025-07-09 20:28:30.373970",
+            "id": 1
+        },
+        {
+            "amount": -100,
+            "category": "loan payment",
+            "description": "another payment",
+            "timestamp": "2025-07-09 20:28:30.374434",
+            "id": 2
+        }
+    ]
+}

@@ -15,6 +15,9 @@ class Transaction:
     category: str
     description: str
     timestamp: datetime = field(default_factory=datetime.now)
+    id : int = field(init=False)
+
+    _id_counter = 0
     
     def __post_init__(self):
         if self.amount == 0:
@@ -24,6 +27,8 @@ class Transaction:
         object.__setattr__(self, "category", self.category.lower())
         object.__setattr__(self, "amount", self.amount)
         object.__setattr__(self, "description", self.description)
+        object.__setattr__(self, "id", Transaction._id_counter)
+        Transaction._id_counter += 1
 
     @property
     def is_income(self):
@@ -59,9 +64,13 @@ class Transaction:
     @property
     def timestamp_day(self):
         return self.timestamp.strftime("%A")
-
-
-transaction1 = Transaction(amount=12.10, category="deposit", description="input of cash")
-print(transaction1.timestamp_str)
-print(transaction1.timestamp_day)
+    
+    def to_dict(self):
+        return {
+            "amount" : self.amount,
+            "category" : self.category,
+            "description" : self.description,
+            "timestamp" : self.timestamp_str,
+            "id" : self.id
+        }
     
